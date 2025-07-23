@@ -1,5 +1,5 @@
-## jEAP Spring Boot DB Migration Starter
-jEAP Spring Boot DB Migration Starter is a Spring Boot starter for running DB migrations as separate jobs (i.e. on k8s).
+## jEAP Spring Boot Roles Anywhere Starter
+jEAP Spring Boot Roles Anywhere Starter is a library that provides integration with AWS IAM Roles Anywhere for certificate-based authentication in Spring Boot applications.
 
 ## Changes
 
