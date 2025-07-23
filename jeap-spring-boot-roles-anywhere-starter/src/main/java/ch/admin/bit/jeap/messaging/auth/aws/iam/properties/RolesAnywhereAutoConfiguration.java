@@ -8,6 +8,7 @@ import ch.admin.bit.jeap.messaging.auth.aws.iam.IAMRolesAnywhereSessionsCredenti
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.RolesAnywhereAuthContext;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.mapper.RolesAnywhereAuthContextMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -59,10 +60,15 @@ public class RolesAnywhereAutoConfiguration {
     public AwsCredentialsProvider awsCredentialsProvider(
             AwsRolesAnywhereSessionOrchestrator orchestrator
     ) {
-        IAMRolesAnywhereSessionsCredentialsProvider provider =
-                new IAMRolesAnywhereSessionsCredentialsProvider(orchestrator);
+        try {
+            IAMRolesAnywhereSessionsCredentialsProvider provider =
+                    new IAMRolesAnywhereSessionsCredentialsProvider(orchestrator);
 
-        IAMRolesAnywhereCredentialsProviderHolder.setProvider(provider);
-        return provider;
+            IAMRolesAnywhereCredentialsProviderHolder.setProvider(provider);
+            return provider;
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to create AwsCredentialsProvider", e);
+        }
     }
+
 }

@@ -80,10 +80,9 @@ class RolesAnywhereAuthContextMapperTest {
         props.setRoleArn(null);
         props.setProfileArn(null);
         props.setTrustAnchorArn(null);
-        props.setArnJsonFilePath(null);
+        props.setArnJsonFilePath("/non/existing/path/context.json");
 
-        Exception ex = assertThrows(IllegalArgumentException.class, () -> mapper.map(props, "fail"));
-        assertTrue(ex.getMessage().contains("ARNs"));
+        assertThrows(IllegalArgumentException.class, () -> mapper.map(props, "fail"));
     }
 
     @Test

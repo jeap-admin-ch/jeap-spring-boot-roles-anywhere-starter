@@ -14,7 +14,6 @@ public class AwsRolesAnywhereProperties {
     private final Integer sessionDuration = 3600;
     private String encodedX509Certificate;
     private String encodedPrivateKey;
-
     private String certificateFilePath;
     private String privateKeyFilePath;
     private String arnJsonFilePath;

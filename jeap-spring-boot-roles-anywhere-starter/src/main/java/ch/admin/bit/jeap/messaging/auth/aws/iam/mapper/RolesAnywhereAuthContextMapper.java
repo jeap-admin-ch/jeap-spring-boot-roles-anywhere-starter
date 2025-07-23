@@ -34,6 +34,8 @@ public class RolesAnywhereAuthContextMapper {
 
     public RolesAnywhereAuthContext map(AwsRolesAnywhereProperties props, String roleSessionName) {
         try {
+            applyDefaultPathsIfMissing(props);
+
             if (StringUtils.isNotBlank(props.getArnJsonFilePath()) &&
                     (StringUtils.isBlank(props.getRoleArn()) ||
                             StringUtils.isBlank(props.getTrustAnchorArn()) ||
@@ -117,6 +119,20 @@ public class RolesAnywhereAuthContextMapper {
 
         if (!hasKey) {
             throw new IllegalArgumentException("Either encoded private key or private key file path must be provided.");
+        }
+    }
+
+    private void applyDefaultPathsIfMissing(AwsRolesAnywhereProperties props) {
+        String userHome = System.getProperty("user.home");
+
+        if (StringUtils.isBlank(props.getCertificateFilePath())) {
+            props.setCertificateFilePath(userHome + "/.aws/roles-anywhere/userCert.pem");
+        }
+        if (StringUtils.isBlank(props.getPrivateKeyFilePath())) {
+            props.setPrivateKeyFilePath(userHome + "/.aws/roles-anywhere/userKey.pem");
+        }
+        if (StringUtils.isBlank(props.getArnJsonFilePath())) {
+            props.setArnJsonFilePath(userHome + "/.aws/roles-anywhere/context.json");
         }
     }
 }
