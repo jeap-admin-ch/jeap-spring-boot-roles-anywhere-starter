@@ -1,0 +1,62 @@
+package ch.admin.bit.jeap.messaging.auth.aws.iam.properties;
+
+import ch.admin.bit.jeap.messaging.auth.aws.iam.AwsRolesAnywhereSessionOrchestrator;
+import ch.admin.bit.jeap.messaging.auth.aws.iam.util.IAMRolesAnywhereCredentialsProviderHolder;
+import ch.admin.bit.jeap.messaging.auth.aws.iam.IAMRolesAnywhereSessionsCredentialsProvider;
+import ch.admin.bit.jeap.messaging.auth.aws.iam.models.RolesAnywhereAuthContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
+
+@AutoConfiguration
+@AutoConfigureBefore(KafkaAutoConfiguration.class)
+@Configuration
+@EnableConfigurationProperties(AwsRolesAnywhereProperties.class)
+@ConditionalOnProperty(name = "jeap.aws.rolesanywhere.enabled", havingValue = "true")
+public class RolesAnywhereAutoConfiguration {
+
+    private final Environment environment;
+
+    public RolesAnywhereAutoConfiguration(Environment environment) {
+        this.environment = environment;
+    }
+
+    @Bean
+    public AwsRolesAnywhereSessionOrchestrator awsRolesAnywhereSessionOrchestrator(
+            AwsRolesAnywhereProperties props,
+            ObjectMapper objectMapper,
+            Environment environment
+    ) {
+        RolesAnywhereAuthContext requesterDetails = RolesAnywhereAuthContext.from(
+                props,
+                environment.getProperty("spring.application.name", "default-session")
+        );
+
+        return new AwsRolesAnywhereSessionOrchestrator(
+                requesterDetails,
+                UrlConnectionHttpClient.builder().build(),
+                objectMapper
+        );
+    }
+
+    @Bean
+    @Primary
+    public AwsCredentialsProvider awsCredentialsProvider(
+            AwsRolesAnywhereSessionOrchestrator orchestrator
+    ) {
+        IAMRolesAnywhereSessionsCredentialsProvider provider =
+                new IAMRolesAnywhereSessionsCredentialsProvider(orchestrator);
+
+        IAMRolesAnywhereCredentialsProviderHolder.setProvider(provider);
+        return provider;
+    }
+}
