@@ -16,7 +16,7 @@ public class AwsRolesAnywhereSessionsRequest {
     private String roleArn;
     private String profileArn;
     private String trustAnchorArn;
-    private Integer durationSeconds = 900;
+    private Integer durationSeconds;
 
     public static AwsRolesAnywhereSessionsRequest from(RolesAnywhereAuthContext context) {
         return AwsRolesAnywhereSessionsRequest.builder()

@@ -18,7 +18,6 @@ import static ch.admin.bit.jeap.messaging.auth.aws.iam.certs.CertLoader.convertT
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.request.AwsRolesAnywhereHeaderFactory.*;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsDateUtils.getDateAndTime;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsHashUtils.hashContent;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 import static software.amazon.awssdk.http.Header.CONTENT_TYPE;
 import static software.amazon.awssdk.http.Header.HOST;
@@ -41,7 +40,7 @@ public class AwsCanonicalRequestFactory {
                                         final String method,
                                         final String uri,
                                         final String body,
-                                        final X509CertificateChain x509CertificateChain) throws NoSuchAlgorithmException, CertificateException, NoSuchProviderException {
+                                        final X509CertificateChain x509CertificateChain) throws NoSuchAlgorithmException {
         var dateAndTime = getDateAndTime(instant);
         var canonicalHeaders = "";
         var canonicalRequestBuilder = new StringBuilder();
