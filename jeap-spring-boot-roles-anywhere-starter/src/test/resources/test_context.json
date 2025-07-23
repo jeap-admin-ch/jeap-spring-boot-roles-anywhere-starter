@@ -1,0 +1,7 @@
+{
+  "userId": "test.user@example.com",
+  "context": "test-env",
+  "trustAnchorArn": "arn:aws:rolesanywhere:eu-central-1:123456789012:trust-anchor/test-anchor",
+  "profileArn": "arn:aws:rolesanywhere:eu-central-1:123456789012:profile/test-profile",
+  "roleArn": "arn:aws:iam::123456789012:role/test-role"
+}

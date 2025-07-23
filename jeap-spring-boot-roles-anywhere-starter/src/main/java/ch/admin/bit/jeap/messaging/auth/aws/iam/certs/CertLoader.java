@@ -21,13 +21,10 @@ import java.util.List;
 @Slf4j
 public class CertLoader {
 
-    private CertLoader() {
-    }
-
     public static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
     public static final String END_CERT = "-----END CERTIFICATE-----";
 
-    public static String normalizeCertificate(String certInput) {
+    public String normalizeCertificate(String certInput) {
         if (StringUtils.isBlank(certInput)) {
             throw new IllegalArgumentException("Certificate input is empty or null");
         }
@@ -47,12 +44,12 @@ public class CertLoader {
         }
     }
 
-    public static X509Certificate extractCertificate(final String base64EncodedCert) {
+    public X509Certificate extractCertificate(String base64EncodedCert) {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             byte[] decodedCertificate = Base64.getDecoder().decode(base64EncodedCert);
             X509Certificate cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(decodedCertificate));
-            log.info("Certificate expires at {}", cert.getNotAfter());
+            log.debug("Certificate expires at {}", cert.getNotAfter());
             return cert;
         } catch (CertificateException e) {
             log.error("Error while extracting certificate, {}", e.getMessage());
@@ -60,7 +57,7 @@ public class CertLoader {
         }
     }
 
-    public static List<X509Certificate> extractCertificates(final String base64EncodedCert) throws CertificateException, NoSuchProviderException {
+    public List<X509Certificate> extractCertificates(String base64EncodedCert) throws CertificateException, NoSuchProviderException {
         Security.addProvider(new BouncyCastleProvider());
         CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
         var inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64EncodedCert));
@@ -73,41 +70,44 @@ public class CertLoader {
         return certificates;
     }
 
-    public static boolean possibleChainOfCerts(final String base64EncodedCert) {
+    public boolean possibleChainOfCerts(String base64EncodedCert) {
         String rawCertFile = new String(Base64.getDecoder().decode(base64EncodedCert));
-        if (countOccurrencesOfBEGINCERT(rawCertFile) == 1) {
+        int count = countOccurrencesOfBEGINCERT(rawCertFile);
+
+        if (count == 1) {
             log.debug("Only one cert provided");
-        } else if (countOccurrencesOfBEGINCERT(rawCertFile) > 1) {
+            return false;
+        } else if (count > 1) {
             log.debug("Possible chain of certificates");
             return true;
         } else {
             log.error("Cert not provided correctly");
             throw new RuntimeException("Cert not provided correctly");
         }
-        return false;
     }
 
-    public static X509CertificateChain resolveCertificateChain(final String base64EncodedCert) throws CertificateException, NoSuchProviderException {
+    public X509CertificateChain resolveCertificateChain(String base64EncodedCert) throws CertificateException, NoSuchProviderException {
         var x509CertificateChain = new X509CertificateChain();
         x509CertificateChain.setBase64EncodedCertificate(base64EncodedCert);
+
         if (possibleChainOfCerts(base64EncodedCert)) {
             var certs = extractCertificates(base64EncodedCert);
             for (var cert : certs) {
-                // root CA is different from intermediate CA
                 if (isRootCA(cert)) {
-                    log.info("root CA expires at, {}", cert.getNotAfter());
+                    log.debug("root CA expires at {}", cert.getNotAfter());
                     x509CertificateChain.setRootCACertificate(cert);
-                } else if (ifX509CertIsCA(cert)) { // for intermediate CA
-                    log.info("intermediate CA expires at, {}", cert.getNotAfter());
+                } else if (isIntermediateCA(cert)) {
+                    log.debug("intermediate CA expires at {}", cert.getNotAfter());
                     x509CertificateChain.setIntermediateCACertificate(cert);
                 } else {
-                    log.info("leaf cert expires at, {}", cert.getNotAfter());
-                    x509CertificateChain.setLeafCertificate(cert); // leaf certificate
+                    log.debug("leaf cert expires at {}", cert.getNotAfter());
+                    x509CertificateChain.setLeafCertificate(cert);
                 }
             }
         } else {
             x509CertificateChain.setLeafCertificate(extractCertificate(base64EncodedCert));
         }
+
         return x509CertificateChain;
     }
 
@@ -122,11 +122,11 @@ public class CertLoader {
         return Base64.getEncoder().encodeToString(sw.toString().getBytes(StandardCharsets.UTF_8));
     }
 
-    public static boolean ifX509CertIsCA(final X509Certificate cert) {
-        return cert.getBasicConstraints() != -1 && cert.getKeyUsage()[5];
+    public boolean isIntermediateCA(X509Certificate cert) {
+        return cert.getBasicConstraints() != -1 && cert.getKeyUsage() != null && cert.getKeyUsage()[5];
     }
 
-    public static boolean isRootCA(final X509Certificate cert) {
+    public boolean isRootCA(X509Certificate cert) {
         try {
             cert.verify(cert.getPublicKey());
             log.info("this is root CA");
@@ -136,13 +136,12 @@ public class CertLoader {
         } catch (SignatureException e) {
             log.warn("the cert with name = {} is not Root CA signature issue", cert.getSubjectX500Principal().getName());
         } catch (CertificateException | NoSuchAlgorithmException | NoSuchProviderException e) {
-            log.error("this is not Root CA, exception", e.getCause());
+            log.error("this is not Root CA, exception", e);
         }
         return false;
     }
 
-    private static int countOccurrencesOfBEGINCERT(final String str) {
-        // if main string or subString is empty, makes no sense of occurrence, hence hard stopped with 0 occurrence
+    private int countOccurrencesOfBEGINCERT(String str) {
         if (StringUtils.isBlank(str) || StringUtils.isBlank(BEGIN_CERT)) {
             return 0;
         }
@@ -156,5 +155,4 @@ public class CertLoader {
         }
         return count;
     }
-
 }

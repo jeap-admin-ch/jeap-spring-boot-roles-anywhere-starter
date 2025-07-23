@@ -1,9 +1,12 @@
 package ch.admin.bit.jeap.messaging.auth.aws.iam.properties;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.AwsRolesAnywhereSessionOrchestrator;
+import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.CertLoader;
+import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.PrivateKeyLoader;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.util.IAMRolesAnywhereCredentialsProviderHolder;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.IAMRolesAnywhereSessionsCredentialsProvider;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.RolesAnywhereAuthContext;
+import ch.admin.bit.jeap.messaging.auth.aws.iam.mapper.RolesAnywhereAuthContextMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -36,7 +39,9 @@ public class RolesAnywhereAutoConfiguration {
             ObjectMapper objectMapper,
             Environment environment
     ) {
-        RolesAnywhereAuthContext requesterDetails = RolesAnywhereAuthContext.from(
+        var mapper = new RolesAnywhereAuthContextMapper(objectMapper, new CertLoader(), new PrivateKeyLoader());
+
+        RolesAnywhereAuthContext requesterDetails = mapper.map(
                 props,
                 environment.getProperty("spring.application.name", "default-session")
         );
@@ -47,6 +52,7 @@ public class RolesAnywhereAutoConfiguration {
                 objectMapper
         );
     }
+
 
     @Bean
     @Primary
