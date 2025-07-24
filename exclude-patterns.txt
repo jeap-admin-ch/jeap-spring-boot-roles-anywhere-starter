@@ -1,0 +1,2 @@
+jeap-spring-boot-roles-anywhere-starter/src/test/resources/test_private_key.pem
+jeap-spring-boot-roles-anywhere-starter/src/test/resources/test_cert_chain.pem
