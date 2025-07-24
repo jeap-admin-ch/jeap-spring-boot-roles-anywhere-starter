@@ -1,5 +1,6 @@
 package ch.admin.bit.jeap.messaging.auth.aws.iam.signing;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.utils.BinaryUtils;
@@ -14,6 +15,7 @@ import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsHashUtils.hashCon
 import static software.amazon.awssdk.auth.signer.internal.SignerConstant.AWS4_TERMINATOR;
 
 @Slf4j
+@NoArgsConstructor
 public class AwsV4Signer {
 
     public static final String AWS4_X509_PREFIX = "AWS4-X509-";
@@ -21,9 +23,6 @@ public class AwsV4Signer {
     public static final String ROLES_ANYWHERE_SERVICE = "rolesanywhere";
     public static final String SHA256_RSA = "SHA256withRSA";
     public static final String RSA = "RSA";
-
-    public AwsV4Signer() {
-    }
 
     public String signRequest(final Instant instant,
                               final Region region,

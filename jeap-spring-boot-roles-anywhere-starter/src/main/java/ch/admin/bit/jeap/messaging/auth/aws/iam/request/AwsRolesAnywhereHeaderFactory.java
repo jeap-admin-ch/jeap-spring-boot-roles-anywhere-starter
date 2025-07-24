@@ -1,6 +1,7 @@
 package ch.admin.bit.jeap.messaging.auth.aws.iam.request;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
+import lombok.NoArgsConstructor;
 import software.amazon.awssdk.regions.Region;
 
 import java.security.PrivateKey;
@@ -12,6 +13,7 @@ import static software.amazon.awssdk.http.Header.CONTENT_TYPE;
 import static software.amazon.awssdk.http.Header.HOST;
 import static software.amazon.awssdk.http.auth.aws.internal.signer.util.SignerConstant.X_AMZ_DATE;
 
+@NoArgsConstructor
 public class AwsRolesAnywhereHeaderFactory {
 
     private static final String SEMI_COLON = ";";
@@ -21,9 +23,6 @@ public class AwsRolesAnywhereHeaderFactory {
     private static final String SIGNATURE_PREFIX = "Signature=";
     public static final String X_AMZ_X509 = "x-amz-x509";
     public static final String X_AMZ_X509_CHAIN = "x-amz-x509-chain";
-
-    public AwsRolesAnywhereHeaderFactory() {
-    }
 
     public String buildAuthHeader(
             Instant instant,

@@ -48,8 +48,16 @@ public class AwsRolesAnywhereHttpClient {
             if (response.responseBody().isPresent()) {
                 var content = response.responseBody().get();
                 var responseBody = IoUtils.toUtf8String(content);
+
                 log.debug("Response Body: {}", responseBody);
-                return objectMapper.readValue(responseBody, AwsRolesAnywhereSessionsResponse.class);
+                AwsRolesAnywhereSessionsResponse sessionsResponse = objectMapper.readValue(responseBody, AwsRolesAnywhereSessionsResponse.class);
+
+                if (sessionsResponse.getCredentialSet() == null || sessionsResponse.getCredentialSet().isEmpty()) {
+                    throw new RuntimeException("No credentials returned in response: " + sessionsResponse.getMessage()
+                            + " – AWS response indicates no credentials were issued. " +
+                            "Please verify that Elevated Access is granted.");
+                }
+                return sessionsResponse;
             } else {
                 throw new RuntimeException("Empty response body from AWS Roles Anywhere");
             }
