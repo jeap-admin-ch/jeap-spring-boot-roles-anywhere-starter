@@ -1,6 +1,7 @@
 package ch.admin.bit.jeap.messaging.auth.aws.iam.request;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.http.SdkHttpFullRequest;
 import software.amazon.awssdk.http.SdkHttpMethod;
@@ -14,10 +15,8 @@ import static software.amazon.awssdk.auth.signer.internal.SignerConstant.AUTHORI
 import static software.amazon.awssdk.http.Header.CONTENT_TYPE;
 
 @Slf4j
+@NoArgsConstructor
 public class AwsRolesAnywhereRequestFactory {
-
-    public AwsRolesAnywhereRequestFactory() {
-    }
 
     public SdkHttpFullRequest build(
             Instant instant,

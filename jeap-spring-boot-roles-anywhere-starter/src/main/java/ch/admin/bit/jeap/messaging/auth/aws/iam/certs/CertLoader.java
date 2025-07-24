@@ -2,15 +2,15 @@ package ch.admin.bit.jeap.messaging.auth.aws.iam.certs;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import software.amazon.awssdk.utils.StringUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SignatureException;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -57,9 +57,8 @@ public class CertLoader {
         }
     }
 
-    public List<X509Certificate> extractCertificates(String base64EncodedCert) throws CertificateException, NoSuchProviderException {
-        Security.addProvider(new BouncyCastleProvider());
-        CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
+    public List<X509Certificate> extractCertificates(String base64EncodedCert) throws CertificateException {
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
         var inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64EncodedCert));
 
         List<X509Certificate> certificates = new ArrayList<>();
@@ -86,7 +85,7 @@ public class CertLoader {
         }
     }
 
-    public X509CertificateChain resolveCertificateChain(String base64EncodedCert) throws CertificateException, NoSuchProviderException {
+    public X509CertificateChain resolveCertificateChain(String base64EncodedCert) throws CertificateException {
         var x509CertificateChain = new X509CertificateChain();
         x509CertificateChain.setBase64EncodedCertificate(base64EncodedCert);
 
@@ -112,14 +111,14 @@ public class CertLoader {
     }
 
     public static String convertToBase64PEMString(X509Certificate x509Cert) {
-        Security.addProvider(new BouncyCastleProvider());
-        var sw = new StringWriter();
-        try (JcaPEMWriter pw = new JcaPEMWriter(sw)) {
-            pw.writeObject(x509Cert);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        try {
+            String base64 = Base64.getMimeEncoder(64, "\n".getBytes())
+                    .encodeToString(x509Cert.getEncoded());
+            String pem = BEGIN_CERT + "\n" + base64 + "\n" + END_CERT + "\n";
+            return Base64.getEncoder().encodeToString(pem.getBytes(StandardCharsets.UTF_8));
+        } catch (CertificateEncodingException e) {
+            throw new RuntimeException("Error encoding the certificate", e);
         }
-        return Base64.getEncoder().encodeToString(sw.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     public boolean isIntermediateCA(X509Certificate cert) {

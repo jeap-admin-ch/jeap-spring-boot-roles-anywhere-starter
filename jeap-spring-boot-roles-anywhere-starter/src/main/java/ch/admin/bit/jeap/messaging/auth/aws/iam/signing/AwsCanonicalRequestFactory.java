@@ -1,14 +1,13 @@
 package ch.admin.bit.jeap.messaging.auth.aws.iam.signing;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.regions.ServiceEndpointKey;
 import software.amazon.awssdk.regions.servicemetadata.RolesanywhereServiceMetadata;
 
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.cert.CertificateException;
 import java.time.Instant;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -24,12 +23,10 @@ import static software.amazon.awssdk.http.Header.HOST;
 import static software.amazon.awssdk.http.auth.aws.internal.signer.util.SignerConstant.X_AMZ_DATE;
 
 @Slf4j
+@NoArgsConstructor
 public class AwsCanonicalRequestFactory {
     private static final String LINE_SEPARATOR = "\n";
     public static final String EMPTY_STRING = "";
-
-    public AwsCanonicalRequestFactory() {
-    }
 
     public static String resolveHostBasedOnRegion(final Region region) {
         return new RolesanywhereServiceMetadata().endpointFor(ServiceEndpointKey.builder().region(region).build()).getPath();

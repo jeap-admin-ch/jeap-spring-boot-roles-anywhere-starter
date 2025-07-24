@@ -7,8 +7,11 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Security;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,5 +57,28 @@ class CertLoaderTest {
         String base64Encoded = certLoader.normalizeCertificate(pemCertChain);
         boolean isChain = certLoader.possibleChainOfCerts(base64Encoded);
         assertTrue(isChain, "Expected a certificate chain.");
+    }
+
+    @Test
+    void testConvertToBase64PEMString_forCertificateChain() throws Exception {
+        String base64Encoded = certLoader.normalizeCertificate(pemCertChain);
+        X509CertificateChain chain = certLoader.resolveCertificateChain(base64Encoded);
+
+        assertNotNull(chain.getLeafCertificate(), "Leaf certificate is missing.");
+        assertNotNull(chain.getIntermediateCACertificate(), "Intermediate certificate is missing.");
+        assertNotNull(chain.getRootCACertificate(), "Root certificate is missing.");
+
+        for (X509Certificate cert : List.of(
+                chain.getLeafCertificate(),
+                chain.getIntermediateCACertificate(),
+                chain.getRootCACertificate()
+        )) {
+            String base64Pem = CertLoader.convertToBase64PEMString(cert);
+
+            assertNotNull(base64Pem);
+            String decodedPem = new String(Base64.getDecoder().decode(base64Pem));
+            assertTrue(decodedPem.contains("-----BEGIN CERTIFICATE-----"));
+            assertTrue(decodedPem.contains("-----END CERTIFICATE-----"));
+        }
     }
 }
