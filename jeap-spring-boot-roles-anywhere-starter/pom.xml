@@ -12,7 +12,7 @@
 
     <artifactId>jeap-spring-boot-roles-anywhere-starter</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>jEAP starter for a Spring Boot database migration</description>
+    <description>jEAP starter for iam roles anywhere</description>
 
     <dependencies>
         <dependency>
