@@ -14,11 +14,14 @@ softwareType: library
 description:
   en:
     localisedName: jeap-spring-boot-roles-anywhere-starter
-    shortDescription: TODO (Max. 150 characters)
+    shortDescription: jEAP Spring Boot Roles Anywhere Starter is a library that provides integration with AWS IAM Roles Anywhere
     longDescription: >
-      TODO (Min. 150 characters)
+      jEAP Spring Boot Roles Anywhere Starter is a library that provides integration with AWS IAM Roles Anywhere for
+      certificate-based authentication in Spring Boot applications. It is implemented in Java and does not require
+      any external binaries, making it easy to integrate into existing projects.
     features:
-      - TODO
+      - Integration with AWS IAM Roles Anywhere in Spring Boot applications
+      - Provides an AWS Credential Provider for certificate-based authentication
 legal:
   license: Apache-2.0
 maintenance:
