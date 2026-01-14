@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - Update parent from 5.16.8 to 5.17.0
+- Updated SignerConstant package
 
 ## [1.15.0] - 2026-01-07
 

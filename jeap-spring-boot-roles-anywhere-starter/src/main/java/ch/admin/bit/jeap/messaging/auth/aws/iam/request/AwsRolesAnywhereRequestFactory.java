@@ -11,7 +11,7 @@ import java.time.Instant;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.certs.CertLoader.convertToBase64PEMString;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsDateUtils.getDateAndTime;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-import static software.amazon.awssdk.auth.signer.internal.SignerConstant.AUTHORIZATION;
+import static software.amazon.awssdk.http.auth.aws.signer.SignerConstant.AUTHORIZATION;
 import static software.amazon.awssdk.http.Header.CONTENT_TYPE;
 
 @Slf4j

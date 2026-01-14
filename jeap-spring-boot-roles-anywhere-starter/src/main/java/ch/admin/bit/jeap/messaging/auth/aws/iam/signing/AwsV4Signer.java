@@ -12,7 +12,7 @@ import java.time.Instant;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsDateUtils.getDate;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsDateUtils.getDateAndTime;
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsHashUtils.hashContent;
-import static software.amazon.awssdk.auth.signer.internal.SignerConstant.AWS4_TERMINATOR;
+import static software.amazon.awssdk.http.auth.aws.signer.SignerConstant.AWS4_TERMINATOR;
 
 @Slf4j
 @NoArgsConstructor

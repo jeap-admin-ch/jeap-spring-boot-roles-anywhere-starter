@@ -11,7 +11,7 @@ import static ch.admin.bit.jeap.messaging.auth.aws.iam.signing.AwsV4Signer.crede
 import static ch.admin.bit.jeap.messaging.auth.aws.iam.signing.AwsV4Signer.resolveAwsAlgorithm;
 import static software.amazon.awssdk.http.Header.CONTENT_TYPE;
 import static software.amazon.awssdk.http.Header.HOST;
-import static software.amazon.awssdk.http.auth.aws.internal.signer.util.SignerConstant.X_AMZ_DATE;
+import static software.amazon.awssdk.http.auth.aws.signer.SignerConstant.X_AMZ_DATE;
 
 @NoArgsConstructor
 public class AwsRolesAnywhereHeaderFactory {

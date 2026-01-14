@@ -20,7 +20,7 @@ import static ch.admin.bit.jeap.messaging.auth.aws.iam.util.AwsHashUtils.hashCon
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 import static software.amazon.awssdk.http.Header.CONTENT_TYPE;
 import static software.amazon.awssdk.http.Header.HOST;
-import static software.amazon.awssdk.http.auth.aws.internal.signer.util.SignerConstant.X_AMZ_DATE;
+import static software.amazon.awssdk.http.auth.aws.signer.SignerConstant.X_AMZ_DATE;
 
 @Slf4j
 @NoArgsConstructor
