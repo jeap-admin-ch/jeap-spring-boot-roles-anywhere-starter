@@ -87,6 +87,8 @@ Eclipse Distribution License - v 1.0
 Eclipse Public License v2.0
 -------------------------------
 
+ * Logback Classic Module - [ch.qos.logback:logback-classic](http://logback.qos.ch/logback-classic)
+ * Logback Core Module - [ch.qos.logback:logback-core](http://logback.qos.ch/logback-core)
  * Jakarta Annotations API - [jakarta.annotation:jakarta.annotation-api](https://projects.eclipse.org/projects/ee4j.ca)
  * JUnit Jupiter (Aggregator) - [org.junit.jupiter:junit-jupiter](https://junit.org/junit5/)
  * JUnit Jupiter API - [org.junit.jupiter:junit-jupiter-api](https://junit.org/junit5/)
@@ -94,12 +96,6 @@ Eclipse Public License v2.0
  * JUnit Jupiter Params - [org.junit.jupiter:junit-jupiter-params](https://junit.org/junit5/)
  * JUnit Platform Commons - [org.junit.platform:junit-platform-commons](https://junit.org/junit5/)
  * JUnit Platform Engine API - [org.junit.platform:junit-platform-engine](https://junit.org/junit5/)
-
-Eclipse Public License, Version 1.0
--------------------------------
-
- * Logback Classic Module - [ch.qos.logback:logback-classic](http://logback.qos.ch/logback-classic)
- * Logback Core Module - [ch.qos.logback:logback-core](http://logback.qos.ch/logback-core)
 
 GNU General Public License, version 2 (GPL2), with the classpath exception
 -------------------------------
