@@ -1,7 +1,7 @@
 publiccodeYmlVersion: 0.5.0
 name: jeap-spring-boot-roles-anywhere-starter
 applicationSuite: jEAP
-softwareVersion: 1.25.0
+softwareVersion: 1.26.0
 releaseDate: 2026-04-13
 url: "https://github.com/jeap-admin-ch/jeap-spring-boot-roles-anywhere-starter.git"
 landingURL: "https://github.com/jeap-admin-ch/jeap"
