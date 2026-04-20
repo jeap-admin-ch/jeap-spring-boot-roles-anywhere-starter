@@ -43,6 +43,7 @@
     </modules>
 
     <properties>
+        <yawk-lz4-java.version>1.11.0</yawk-lz4-java.version>
         <maven.javadoc.skip>false</maven.javadoc.skip>
     </properties>
 
