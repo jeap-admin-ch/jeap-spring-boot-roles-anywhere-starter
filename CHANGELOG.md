@@ -13,7 +13,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Update parent from 8.0.1 to 8.1.0
 
-## [3.2.0] - 2026-06-01
+## [3.2.0] - 2026-06-04
 
 ### Changed
 
