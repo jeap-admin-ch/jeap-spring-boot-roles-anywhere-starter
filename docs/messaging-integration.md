@@ -47,6 +47,24 @@ serves any other AWS SDK v2 client in the application (for example AWS Glue Sche
 For the messaging-side properties (MSK IAM auth, Glue Schema Registry) refer to the jEAP Messaging
 documentation; this page only covers the credential provider that this starter contributes.
 
+## Troubleshooting
+
+### SSL handshake failure connecting to the Kafka broker
+
+```
+Connection to node -1 (...) failed authentication due to: SSL handshake failed
+Bootstrap broker (...) disconnected
+Failed authentication with (...) (SSL handshake failed)
+```
+
+This is usually unrelated to Roles Anywhere: IAM authentication with MSK succeeded, but the JVM's
+truststore is missing the CA certificate(s) needed to trust the broker's TLS certificate. Import the
+missing CA certificate(s) into the truststore used by the JVM and restart the application, for example:
+
+```bash
+keytool -import -trustcacerts -alias <alias-name> -file <certificate-file>.crt -keystore <truststore>.jks -storepass <password>
+```
+
 ## Related
 
 - [Getting started](getting-started.md)

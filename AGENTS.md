@@ -59,6 +59,10 @@ Jenkinsfile, CHANGELOG.md, LICENSE
 When changing public behaviour (properties, bean wiring, credential flow), update the matching focused
 file under [docs/](docs/) (one topic per file) and the documentation index in the README.
 
+Validate that files under `docs/*.md` are valid MDX Markdown compatible with a Docusaurus site. Also
+validate that Mermaid diagrams in the Markdown files (for example in `docs/how-it-works.md`) use correct
+Mermaid syntax.
+
 ## Versioning
 
 - Semantic Versioning; all changes documented in [CHANGELOG.md](./CHANGELOG.md) (Keep a Changelog format).
@@ -69,3 +73,4 @@ file under [docs/](docs/) (one topic per file) and the documentation index in th
 - Keep changelog entries concise and follow existing patterns.
 - Keep commit messages short, use the JIRA ID from the branch name as a prefix, do not use conventional
   commits (for example: "JEAP-1234 Added feature X").
+- When bumping the version, also update the changelog, and update version/date in `publiccode.yml`.
