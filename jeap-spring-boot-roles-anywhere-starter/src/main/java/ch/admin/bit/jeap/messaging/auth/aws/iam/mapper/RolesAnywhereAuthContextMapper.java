@@ -5,10 +5,10 @@ import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.PrivateKeyLoader;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.RolesAnywhereAuthContext;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.properties.AwsRolesAnywhereProperties;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.common.util.StringUtils;
 import software.amazon.awssdk.regions.Region;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,14 +20,14 @@ import static ch.admin.bit.jeap.messaging.auth.aws.iam.signing.AwsCanonicalReque
 
 public class RolesAnywhereAuthContextMapper {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
     private final CertLoader certLoader;
     private final PrivateKeyLoader privateKeyLoader;
 
-    public RolesAnywhereAuthContextMapper(ObjectMapper objectMapper,
+    public RolesAnywhereAuthContextMapper(JsonMapper jsonMapper,
                                           CertLoader certLoader,
                                           PrivateKeyLoader privateKeyLoader) {
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
         this.certLoader = certLoader;
         this.privateKeyLoader = privateKeyLoader;
     }
@@ -81,16 +81,16 @@ public class RolesAnywhereAuthContextMapper {
 
     private void loadArnsFromJson(AwsRolesAnywhereProperties props) throws IOException {
         String jsonContent = Files.readString(Path.of(props.getArnJsonFilePath()), StandardCharsets.UTF_8);
-        JsonNode root = objectMapper.readTree(jsonContent);
+        JsonNode root = jsonMapper.readTree(jsonContent);
 
         if (StringUtils.isBlank(props.getRoleArn())) {
-            props.setRoleArn(root.path("roleArn").asText(null));
+            props.setRoleArn(root.path("roleArn").asString(null));
         }
         if (StringUtils.isBlank(props.getProfileArn())) {
-            props.setProfileArn(root.path("profileArn").asText(null));
+            props.setProfileArn(root.path("profileArn").asString(null));
         }
         if (StringUtils.isBlank(props.getTrustAnchorArn())) {
-            props.setTrustAnchorArn(root.path("trustAnchorArn").asText(null));
+            props.setTrustAnchorArn(root.path("trustAnchorArn").asString(null));
         }
     }
 

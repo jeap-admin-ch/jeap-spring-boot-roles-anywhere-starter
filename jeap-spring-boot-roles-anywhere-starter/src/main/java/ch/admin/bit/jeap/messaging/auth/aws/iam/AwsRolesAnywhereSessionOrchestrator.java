@@ -8,10 +8,10 @@ import ch.admin.bit.jeap.messaging.auth.aws.iam.request.AwsRolesAnywhereHttpClie
 import ch.admin.bit.jeap.messaging.auth.aws.iam.request.AwsRolesAnywhereRequestFactory;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.signing.AwsCanonicalRequestFactory;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.signing.AwsV4Signer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.http.SdkHttpClient;
 import software.amazon.awssdk.http.SdkHttpMethod;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.time.Instant;
 
@@ -20,19 +20,19 @@ public class AwsRolesAnywhereSessionOrchestrator {
 
     private final RolesAnywhereAuthContext authContext;
     private final SdkHttpClient sdkHttpClient;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
-    public AwsRolesAnywhereSessionOrchestrator(RolesAnywhereAuthContext authContext, SdkHttpClient sdkHttpClient, ObjectMapper objectMapper) {
+    public AwsRolesAnywhereSessionOrchestrator(RolesAnywhereAuthContext authContext, SdkHttpClient sdkHttpClient, JsonMapper jsonMapper) {
         this.authContext = authContext;
         this.sdkHttpClient = sdkHttpClient;
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
     }
 
     public AwsRolesAnywhereSessionsResponse getIamRolesAnywhereSessions() {
 
         try {
             // Create the request JSON
-            String requestJson = this.objectMapper.writeValueAsString(
+            String requestJson = this.jsonMapper.writeValueAsString(
                     AwsRolesAnywhereSessionsRequest.from(this.authContext));
             Instant instant = Instant.now();
 
@@ -68,7 +68,7 @@ public class AwsRolesAnywhereSessionOrchestrator {
             // Send request and parse response
             AwsRolesAnywhereHttpClient awsRolesAnywhereHttpClient = new AwsRolesAnywhereHttpClient(
                     this.sdkHttpClient,
-                    this.objectMapper,
+                    this.jsonMapper,
                     new AwsRolesAnywhereRequestFactory());
             return awsRolesAnywhereHttpClient.sendAndParse(
                     instant,

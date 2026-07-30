@@ -2,12 +2,12 @@ package ch.admin.bit.jeap.messaging.auth.aws.iam.request;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.CertLoader;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.http.SdkHttpFullRequest;
 import software.amazon.awssdk.http.SdkHttpMethod;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,10 +34,10 @@ class AwsRolesAnywhereRequestFactoryTest {
         // Load context.json
         Path contextPath = Path.of("src/test/resources/test_context.json");
         String json = Files.readString(contextPath);
-        JsonNode node = new ObjectMapper().readTree(json);
+        JsonNode node = JsonMapper.builder().findAndAddModules().build().readTree(json);
 
         // Simulate host and authHeader from context
-        hostFromContext = "rolesanywhere." + node.path("context").asText("default") + ".example.com";
+        hostFromContext = "rolesanywhere." + node.path("context").asString("default") + ".example.com";
         authHeader = "Bearer dummy-token";
     }
 

@@ -15,6 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.time.Instant;
 import java.util.List;
@@ -45,6 +46,9 @@ class RolesAnywhereAutoConfigurationIT {
     @Autowired
     private AwsCredentialsProvider awsCredentialsProvider;
 
+    @Autowired
+    private JsonMapper jsonMapper;
+
 
     @TestConfiguration
     static class MockConfig {
@@ -74,6 +78,7 @@ class RolesAnywhereAutoConfigurationIT {
     @Test
     void autoConfigurationIsActive() {
         assertThat(context.containsBean("awsCredentialsProvider")).isTrue();
+        assertThat(jsonMapper).isNotNull();
     }
 
     @Test

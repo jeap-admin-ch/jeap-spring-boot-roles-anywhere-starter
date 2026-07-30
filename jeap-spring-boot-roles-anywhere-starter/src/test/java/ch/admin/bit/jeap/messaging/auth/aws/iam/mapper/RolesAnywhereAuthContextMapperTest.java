@@ -4,9 +4,9 @@ import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.CertLoader;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.PrivateKeyLoader;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.RolesAnywhereAuthContext;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.properties.AwsRolesAnywhereProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,11 +23,11 @@ class RolesAnywhereAuthContextMapperTest {
 
     @BeforeEach
     void setup() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
+        JsonMapper jsonMapper = JsonMapper.builder().findAndAddModules().build();
         CertLoader certLoader = new CertLoader();
         PrivateKeyLoader privateKeyLoader = new PrivateKeyLoader();
 
-        mapper = new RolesAnywhereAuthContextMapper(objectMapper, certLoader, privateKeyLoader);
+        mapper = new RolesAnywhereAuthContextMapper(jsonMapper, certLoader, privateKeyLoader);
 
         pemCertChain = Files.readString(Path.of("src/test/resources/test_cert_chain.pem"));
         pemPrivateKey = Files.readString(Path.of("src/test/resources/test_private_key.pem"));

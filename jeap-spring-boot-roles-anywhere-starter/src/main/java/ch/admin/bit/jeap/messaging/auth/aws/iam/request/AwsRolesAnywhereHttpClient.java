@@ -2,12 +2,12 @@ package ch.admin.bit.jeap.messaging.auth.aws.iam.request;
 
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.AwsRolesAnywhereSessionsResponse;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.X509CertificateChain;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.http.HttpExecuteRequest;
 import software.amazon.awssdk.http.SdkHttpClient;
 import software.amazon.awssdk.http.SdkHttpFullRequest;
 import software.amazon.awssdk.utils.IoUtils;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -18,12 +18,12 @@ import java.time.Instant;
 public class AwsRolesAnywhereHttpClient {
 
     private final SdkHttpClient sdkHttpClient;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
     private final AwsRolesAnywhereRequestFactory requestFactory;
 
-    public AwsRolesAnywhereHttpClient(SdkHttpClient sdkHttpClient, ObjectMapper objectMapper, AwsRolesAnywhereRequestFactory requestFactory) {
+    public AwsRolesAnywhereHttpClient(SdkHttpClient sdkHttpClient, JsonMapper jsonMapper, AwsRolesAnywhereRequestFactory requestFactory) {
         this.sdkHttpClient = sdkHttpClient;
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
         this.requestFactory = requestFactory;
     }
 
@@ -50,7 +50,7 @@ public class AwsRolesAnywhereHttpClient {
                 var responseBody = IoUtils.toUtf8String(content);
 
                 log.debug("Response Body: {}", responseBody);
-                AwsRolesAnywhereSessionsResponse sessionsResponse = objectMapper.readValue(responseBody, AwsRolesAnywhereSessionsResponse.class);
+                AwsRolesAnywhereSessionsResponse sessionsResponse = jsonMapper.readValue(responseBody, AwsRolesAnywhereSessionsResponse.class);
 
                 if (sessionsResponse.getCredentialSet() == null || sessionsResponse.getCredentialSet().isEmpty()) {
                     throw new RuntimeException("No credentials returned in response: " + sessionsResponse.getMessage()

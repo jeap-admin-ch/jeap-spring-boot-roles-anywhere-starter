@@ -7,7 +7,6 @@ import ch.admin.bit.jeap.messaging.auth.aws.iam.certs.PrivateKeyLoader;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.mapper.RolesAnywhereAuthContextMapper;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.models.RolesAnywhereAuthContext;
 import ch.admin.bit.jeap.messaging.auth.aws.iam.util.IAMRolesAnywhereCredentialsProviderHolder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,6 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
+import tools.jackson.databind.json.JsonMapper;
 
 @AutoConfiguration
 @AutoConfigureBefore(KafkaAutoConfiguration.class)
@@ -36,10 +36,10 @@ public class RolesAnywhereAutoConfiguration {
     @Bean
     public AwsRolesAnywhereSessionOrchestrator awsRolesAnywhereSessionOrchestrator(
             AwsRolesAnywhereProperties props,
-            ObjectMapper objectMapper,
+            JsonMapper jsonMapper,
             Environment environment
     ) {
-        var mapper = new RolesAnywhereAuthContextMapper(objectMapper, new CertLoader(), new PrivateKeyLoader());
+        var mapper = new RolesAnywhereAuthContextMapper(jsonMapper, new CertLoader(), new PrivateKeyLoader());
 
         RolesAnywhereAuthContext requesterDetails = mapper.map(
                 props,
@@ -49,7 +49,7 @@ public class RolesAnywhereAutoConfiguration {
         return new AwsRolesAnywhereSessionOrchestrator(
                 requesterDetails,
                 UrlConnectionHttpClient.builder().build(),
-                objectMapper
+                jsonMapper
         );
     }
 
