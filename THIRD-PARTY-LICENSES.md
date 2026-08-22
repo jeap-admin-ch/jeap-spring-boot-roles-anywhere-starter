@@ -11,17 +11,16 @@ Apache License Version 2.0
  * LZ4 Java Compression - [at.yawk.lz4:lz4-java](https://github.com/yawkat/lz4-java)
  * ch.admin.bit.jeap:jeap-spring-boot-roles-anywhere-starter - [ch.admin.bit.jeap:jeap-spring-boot-roles-anywhere-starter](https://github.com/jeap-admin-ch/jeap-spring-boot-roles-anywhere-starter/tree/main/jeap-spring-boot-roles-anywhere-starter)
  * Jackson-annotations - [com.fasterxml.jackson.core:jackson-annotations](https://github.com/FasterXML/jackson)
- * FindBugs-jsr305 - [com.google.code.findbugs:jsr305](http://findbugs.sourceforge.net/)
  * json-path - [com.jayway.jsonpath:json-path](https://github.com/jayway/JsonPath)
  * JSON library from Android SDK - [com.vaadin.external.google:android-json](http://developer.android.com/sdk)
  * Apache Commons Logging - [commons-logging:commons-logging](https://commons.apache.org/proper/commons-logging/)
- * micrometer-commons - [io.micrometer:micrometer-commons](https://github.com/micrometer-metrics/micrometer)
- * micrometer-observation - [io.micrometer:micrometer-observation](https://github.com/micrometer-metrics/micrometer)
+ * micrometer-commons - [io.micrometer:micrometer-commons](https://github.com/micrometer-metrics/micrometer-commercial)
+ * micrometer-observation - [io.micrometer:micrometer-observation](https://github.com/micrometer-metrics/micrometer-commercial)
  * Byte Buddy (without dependencies) - [net.bytebuddy:byte-buddy](https://bytebuddy.net/byte-buddy)
  * Byte Buddy agent - [net.bytebuddy:byte-buddy-agent](https://bytebuddy.net/byte-buddy-agent)
  * ASM based accessors helper used by json-smart - [net.minidev:accessors-smart](https://urielch.github.io/)
  * JSON Small and Fast Parser - [net.minidev:json-smart](https://urielch.github.io/)
- * Apache HttpClient - [org.apache.httpcomponents.client5:httpclient5](https://hc.apache.org/httpcomponents-client-5.5.x/5.6.1/httpclient5/)
+ * Apache HttpClient - [org.apache.httpcomponents.client5:httpclient5](https://hc.apache.org/httpcomponents-client-5.6.x/5.6.4/httpclient5/)
  * Apache HttpComponents Core HTTP/1.1 - [org.apache.httpcomponents.core5:httpcore5](https://hc.apache.org/httpcomponents-core-5.4.x/5.4.3/httpcore5/)
  * Apache HttpComponents Core HTTP/2 - [org.apache.httpcomponents.core5:httpcore5-h2](https://hc.apache.org/httpcomponents-core-5.4.x/5.4.3/httpcore5-h2/)
  * Apache Kafka - [org.apache.kafka:kafka-clients](https://kafka.apache.org)
@@ -30,7 +29,7 @@ Apache License Version 2.0
  * org.apiguardian:apiguardian-api - [org.apiguardian:apiguardian-api](https://github.com/apiguardian-team/apiguardian)
  * AssertJ Core - [org.assertj:assertj-core](https://assertj.github.io/doc/#assertj-core)
  * Awaitility - [org.awaitility:awaitility](http://awaitility.org)
- * JSpecify annotations - [org.jspecify:jspecify](http://jspecify.org/)
+ * JSpecify annotations - [org.jspecify:jspecify](https://jspecify.dev/)
  * Objenesis - [org.objenesis:objenesis](http://objenesis.org/objenesis)
  * org.opentest4j:opentest4j - [org.opentest4j:opentest4j](https://github.com/ota4j-team/opentest4j)
  * JSONassert - [org.skyscreamer:jsonassert](https://github.com/skyscreamer/JSONassert)
@@ -127,11 +126,6 @@ GNU General Public License, version 2 (GPL2), with the classpath exception
 -------------------------------
 
  * Jakarta Annotations API - [jakarta.annotation:jakarta.annotation-api](https://projects.eclipse.org/projects/ee4j.ca)
-
-GNU LESSER GENERAL PUBLIC LICENSE, Version 2.1
--------------------------------
-
- * SpotBugs Annotations - [com.github.spotbugs:spotbugs-annotations](https://spotbugs.github.io/)
 
 LGPL-2.1-only
 -------------------------------
