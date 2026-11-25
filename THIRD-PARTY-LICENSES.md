@@ -53,7 +53,7 @@ Apache License Version 2.0
  * Spring Kafka Support - [org.springframework.kafka:spring-kafka](https://github.com/spring-projects/spring-kafka)
  * snappy-java - [org.xerial.snappy:snappy-java](https://github.com/xerial/snappy-java)
  * org.xmlunit:xmlunit-core - [org.xmlunit:xmlunit-core](https://www.xmlunit.org/)
- * SnakeYAML - [org.yaml:snakeyaml](https://bitbucket.org/snakeyaml/snakeyaml)
+ * SnakeYAML - [org.yaml:snakeyaml](https://codeberg.org/snakeyaml/snakeyaml)
  * AWS Java SDK :: Annotations - [software.amazon.awssdk:annotations](https://aws.amazon.com/sdkforjava/core/annotations)
  * AWS Java SDK :: Auth - [software.amazon.awssdk:auth](https://aws.amazon.com/sdkforjava)
  * AWS Java SDK :: AWS Core - [software.amazon.awssdk:aws-core](https://aws.amazon.com/sdkforjava)
